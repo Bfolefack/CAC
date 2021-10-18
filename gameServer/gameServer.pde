@@ -48,6 +48,7 @@ void draw()
   }
   if(running)
   {
+    //add code for image pixelization
     image(img, 0, 0);
     s.write(temp[0] + " " + temp[1]);
     c = s.available();
