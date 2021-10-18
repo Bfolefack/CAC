@@ -3,12 +3,12 @@ import java.util.*;
 
 Client c;
 Server s;
+String name;
 String input;
+PImage img;
 String imgName;
 String answer;
-String name;
 String winner;
-PImage img;
 boolean running = false;
 Map<Client,String> cMap = new HashMap<Client,String>();
 
@@ -29,10 +29,13 @@ void setup()
   s = new Server(this, 1); //make code to find a port instead of having it always be "1"
 }
 
-void draw()
+void keyPressed()
 {
-  image(img, 0, 0);
-  
+  running = true;
+}
+
+void draw()
+{  
   if(!running)
   {
     c = s.available();
@@ -44,7 +47,8 @@ void draw()
   }
   if(running)
   {
-    
+    image(img, 0, 0);
+
     c = s.available();
     if(c != null)
     {
