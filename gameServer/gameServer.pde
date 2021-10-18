@@ -7,11 +7,14 @@ String input;
 String answer;
 String name;
 String winner;
+PImage image;
 boolean running = false;
 Map<Client,String> cMap = new HashMap<Client,String>();
 
 void setup()
 {
+  String[] images = new String[]{};
+  image = loadImage(images[(int)Math.random()*images.length]);
   size(1200, 900);
   background(255);
   stroke(0);
@@ -35,6 +38,7 @@ void draw()
   }
   if(running)
   {
+    
     c = s.available();
     if(c != null)
     {
