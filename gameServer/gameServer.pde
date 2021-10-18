@@ -3,6 +3,7 @@ import java.util.*;
 
 Client c;
 Server s;
+String[] temp;
 String name;
 String input;
 PImage img;
@@ -16,7 +17,7 @@ void setup()
 {
   String[] images = new String[]{}; //add filenames for images and names
   int index = (int)Math.random()*images.length;
-  String[] temp = images[index].split(" ");
+  temp = images[index].split(" ");
   img = loadImage(temp[0]);
   imgName = temp[1];
   size(1200, 900);
@@ -48,7 +49,7 @@ void draw()
   if(running)
   {
     image(img, 0, 0);
-
+    s.write(temp[0] + " " + temp[1]);
     c = s.available();
     if(c != null)
     {
