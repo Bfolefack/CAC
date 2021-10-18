@@ -16,6 +16,7 @@ Map<Client,String> cMap = new HashMap<Client,String>();
 void setup()
 {
   String[] images = new String[]{}; //add filenames for images and names
+  //answer = ;
   int index = (int)Math.random()*images.length;
   temp = images[index].split(" ");
   img = loadImage(temp[0]);
@@ -42,8 +43,7 @@ void draw()
     c = s.available();
     if(c != null)
     {
-      name = c.readString();
-      cMap.put(c, name);
+      cMap.put(c, c.readString());
     }
   }
   if(running)
