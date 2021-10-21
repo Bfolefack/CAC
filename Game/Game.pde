@@ -15,10 +15,14 @@ ClientServer me;
 Game game = this;
 
 void setup() {
-  size(1200, 900);
+  size(800, 600);
   background(255);
+  pushMatrix();
+  pushStyle();
   noStroke();
   textSize(50);
+  popStyle();
+  popMatrix();
   textAlign(CENTER, CENTER);
   try {
     joinIP = InetAddress.getLocalHost().getHostAddress();
@@ -37,12 +41,16 @@ public void draw() {
   switch(gameState) {
   case "name":
     fill(0);
+    textSize(50);
     name = type(name);
     text("Enter your name:", width/2, height/3);
     text(name, width/2, height/2);
     break;
   case "init":
     //TODO: CONVERT TO UI ********************************************************************************************************************
+    Button host=new Button(width/2-120,height/2-40,60,30,"Host");
+    host.display();
+    host.selected(mouseX,mouseY);
     if (keyPressed) {
       if (key == 'h') {
         mainServer = new Server(this, port);
