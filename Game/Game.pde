@@ -33,7 +33,7 @@ void setup() {
 
 public void draw() {
   background(255);
-  println(gameState);
+  //println(gameState);
   switch(gameState) {
   case "name":
     fill(0);
@@ -64,6 +64,7 @@ public void draw() {
     for(String s : me.players()){
       str += s;
     }
+    drawHost();
     break;
     //TODO: CREATE A SCREEN THAT SHOWS WHO IS IN THE GAME ********************************************************************************************************************
   case "codeIP":
@@ -116,8 +117,12 @@ public String type(String s) {
 
 public void drawHost() {
   if(me.isHost){
-    String s = me.read();
-    text(s, width/2, height/2);
+    String str = "";
+    for(String s : me.players()){
+      str += s;
+    }
+    println(me.read());
+    text(str, width/2, height/4);
   }
 }
 

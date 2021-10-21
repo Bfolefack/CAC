@@ -25,9 +25,9 @@ public class ClientServer {
       client = server.available();
       if (client != null)
       {
-        String s = client.readString();
+        String s = client.readString(); //<>//
         println(s);
-        clientMap.put(client, s);
+        clientMap.put(client, s); //<>//
         return s;
       }
     } else {
