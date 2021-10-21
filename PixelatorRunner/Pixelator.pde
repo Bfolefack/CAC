@@ -38,6 +38,8 @@ class Pixelator{
           out.copy(img, 0, 0, intWidth, intHeight, i, j, intWidth, intHeight);
         }
       }
+      int crop = 20;
+      out = out.get(crop, crop, out.width - crop * 2, out.height - crop * 2);
       return out;
   }
 }

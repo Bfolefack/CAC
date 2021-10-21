@@ -10,6 +10,6 @@ public void setup(){
 
 public void draw(){
   background(255);
-  image(image.pixelate(mouseX), 0, 0);
+  image(image.pixelate(mouseX/2), 0, 0);
   println(frameCount);
 }
