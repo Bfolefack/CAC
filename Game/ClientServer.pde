@@ -48,7 +48,12 @@ public class ClientServer {
     if(isHost){
       server.write(s);
     } else {
-      client.write(s);
+      try{
+        client.write(s);
+      } catch (Exception e){
+        printnln(e);
+        e.printStackTrace();
+      }
     }
   }
 }
