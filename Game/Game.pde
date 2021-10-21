@@ -33,7 +33,7 @@ void setup() {
 
 public void draw() {
   background(255);
-  println(gameState);
+  //println(gameState);
   switch(gameState) {
   case "name":
     fill(0);
@@ -96,6 +96,9 @@ public String type(String s) {
         break;
       case "codePort":
         gameState = "" ;
+        println("(" + joinIP + ")");
+        mainClient = new Client(this, joinIP, Integer.parseInt(joinPort));
+        println("done");
         me = new ClientServer(false, name);
         break;
       case "name":
@@ -124,6 +127,7 @@ public void drawHost() {
 
 public void drawPlayer() {
   if(!me.isHost){
-    text("wah", width/2, height/2);
+    text("name", width/2, height/2);
+    me.write(name);
   }
 }
