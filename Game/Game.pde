@@ -1,14 +1,17 @@
 import processing.net.*;
 import java.util.*;
 import java.net.InetAddress;
+import javafx.util.Pair;
+
 int port = (int) random(65535);
 Server mainServer;
 Client mainClient;
 String gameState;
-String imageListLocation;
+String imageListLocation = "ImageNames.txt";
 String name;
 String joinIP;
 String joinPort;
+ArrayList<String> images;
 boolean pKeyPressed;
 
 ClientServer me;
@@ -17,6 +20,9 @@ Game game = this;
 void setup() {
   size(1200, 900);
   background(255);
+  images = new ArrayList<String>(Arrays.asList(loadStrings(imageListLocation))); //add filenames for images and names
+  println(images);
+  //int index = (int)Math.random()*images.length;
   noStroke();
   textSize(50);
   textAlign(CENTER, CENTER);
@@ -46,13 +52,13 @@ public void draw() {
     if (keyPressed) {
       if (key == 'h') {
         mainServer = new Server(this, port);
-        me = new ClientServer(true, name);
+        me = new ClientServer(true);
         gameState = "invite";
       } else if (key == 'p') {
         gameState = "codeIP";
         joinIP = "";
         joinPort = "";
-        //mainClient = new Client(this, "10.224.29.54", port);
+        //mainClient = new Client(this, joinIP, port);
         //me = new ClientServer(false, name);
       }
     }
@@ -61,7 +67,7 @@ public void draw() {
     text(joinIP, width/2, height/3);
     text(joinPort, width/2, height/2);
     String str = "";
-    for(String s : me.players()){
+    for(String s : me.players){
       str += s;
     }
     drawHost();
@@ -100,7 +106,8 @@ public String type(String s) {
         println("(" + joinIP + ")");
         mainClient = new Client(this, joinIP, Integer.parseInt(joinPort));
         println("done");
-        me = new ClientServer(false, name);
+        me = new ClientServer(false);
+        me.write(name);
         break;
       case "name":
         gameState = "init";
@@ -121,9 +128,12 @@ public String type(String s) {
 public void drawHost() {
   if(me.isHost){
     String str = "";
-    for(String s : me.players()){
-      str += s;
+    for(String s : me.players){
+      str += " " + s;
     }
+    println(me.players);
+    println(me.players.size());
+    println(me.clientMap);
     println(me.read());
     text(str, width/2, height/4);
   }
