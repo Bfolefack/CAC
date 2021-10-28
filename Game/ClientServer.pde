@@ -3,8 +3,10 @@ import java.util.*;
 public class ClientServer {
   boolean isHost;
   String gameState;
+  String answer;
   ArrayList<String> players;
   Map<Client, String>  clientMap;
+  Map<String, Integer> unusedLetters;
   int port = 12345;
   Client client;
   Server server;
@@ -27,12 +29,12 @@ public class ClientServer {
       if (client != null)
       {
         if(clientMap.keySet().contains(client)){
-          String s = client.readString(); //<>//
+          String s = parseInput(client.readString()); //<>//
           println(s);
           clientMap.put(client, s); //<>//
           return s;
         } else {
-          String s = client.readString();
+          String s = parseInput(client.readString());
           clientMap.put(client, "");
           players.add(s);
         }
@@ -55,5 +57,16 @@ public class ClientServer {
         e.printStackTrace();
       }
     }
+  }
+  
+  public String encodeOutput(){
+    return null;
+  }
+  
+  public String parseInput(String in){
+    if(in.indexOf("/m") == 0){
+      return in.substring(2, in.length());
+    }
+    return null;
   }
 }

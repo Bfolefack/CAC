@@ -1,7 +1,6 @@
 import processing.net.*;
 import java.util.*;
 import java.net.InetAddress;
-import javafx.util.Pair;
 
 int port = (int) random(65535);
 Server mainServer;
@@ -68,9 +67,13 @@ public void draw() {
     text(joinPort, width/2, height/2);
     String str = "";
     for(String s : me.players){
-      str += s;
+      str += s + " ";
     }
     drawHost();
+    if(keyPressed && keyCode == ENTER){
+      gameState = "guess";
+      me.write("/m" + "start");
+    }
     break;
     //TODO: CREATE A SCREEN THAT SHOWS WHO IS IN THE GAME ********************************************************************************************************************
   case "codeIP":
@@ -107,7 +110,7 @@ public String type(String s) {
         mainClient = new Client(this, joinIP, Integer.parseInt(joinPort));
         println("done");
         me = new ClientServer(false);
-        me.write(name);
+        me.write("/m" + name);
         break;
       case "name":
         gameState = "init";
@@ -136,6 +139,10 @@ public void drawHost() {
     println(me.clientMap);
     println(me.read());
     text(str, width/2, height/4);
+    switch(gameState){
+      case "guess":
+        
+    }
   }
 }
 
@@ -143,6 +150,9 @@ public void drawHost() {
 public void drawPlayer() {
   if(!me.isHost){
     text("name", width/2, height/2);
-    me.write(name);
+    switch(gameState){
+      case "guess":
+        
+    }
   }
 }
