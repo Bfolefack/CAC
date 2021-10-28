@@ -5,12 +5,17 @@ import java.net.InetAddress;
 int port = (int) random(65535);
 Server mainServer;
 Client mainClient;
+String guess;
 String gameState;
 String imageListLocation = "ImageNames.txt";
 String name;
 String joinIP;
 String joinPort;
+
+Map<Integer, String> usedLetters;
+
 ArrayList<String> images;
+String image;
 boolean pKeyPressed;
 
 ClientServer me;
@@ -19,6 +24,7 @@ Game game = this;
 void setup() {
   size(1200, 900);
   background(255);
+  usedLetters = new HashMap<Integer, String>();
   images = new ArrayList<String>(Arrays.asList(loadStrings(imageListLocation))); //add filenames for images and names
   println(images);
   //int index = (int)Math.random()*images.length;
@@ -66,11 +72,11 @@ public void draw() {
     text(joinIP, width/2, height/3);
     text(joinPort, width/2, height/2);
     String str = "";
-    for(String s : me.players){
+    for (String s : me.players) {
       str += s + " ";
     }
     drawHost();
-    if(keyPressed && keyCode == ENTER){
+    if (keyPressed && keyCode == ENTER) {
       gameState = "guess";
       me.write("/m" + "start");
     }
@@ -86,6 +92,8 @@ public void draw() {
     text("IP: " + joinIP, width/2, height/3);
     text("Port: " + joinPort, width/2, height/2);
     break;
+  case "wait":
+    text("Waiting for host", width/2, height/2);
   default:
     drawHost();
     drawPlayer();
@@ -105,7 +113,7 @@ public String type(String s) {
         gameState = "codePort";
         break;
       case "codePort":
-        gameState = "" ;
+        gameState = "wait" ;
         println("(" + joinIP + ")");
         mainClient = new Client(this, joinIP, Integer.parseInt(joinPort));
         println("done");
@@ -129,9 +137,9 @@ public String type(String s) {
 }
 
 public void drawHost() {
-  if(me.isHost){
+  if (me.isHost) {
     String str = "";
-    for(String s : me.players){
+    for (String s : me.players) {
       str += " " + s;
     }
     println(me.players);
@@ -139,20 +147,34 @@ public void drawHost() {
     println(me.clientMap);
     println(me.read());
     text(str, width/2, height/4);
-    switch(gameState){
-      case "guess":
-        
+    switch(gameState) {
+    case "guess":
+      String s = "";
+      for (int i = 0; i < image.length(); i++) {
+        s += "-";
+      }
+      for (Integer index : usedLetters.keySet()) {
+        String letter = usedLetters.get(index);
+        s = s.substring(0, index) + letter + s.substring(index + 1, s.length());
+      }
+      int addInt = (int)random(image.length());
+      usedLetters.put(addInt, "" + image.charAt(addInt));
+      println(s);
     }
   }
 }
 
 
 public void drawPlayer() {
-  if(!me.isHost){
+  if (!me.isHost) {
     text("name", width/2, height/2);
-    switch(gameState){
-      case "guess":
-        
+    switch(gameState) {
+    case "guess":
+      type(guess);
+      text(guess, width/2, height/4);
+      if (keyPressed && keyCode == ENTER) {
+        me.write("/m" + guess);
+      }
     }
   }
 }

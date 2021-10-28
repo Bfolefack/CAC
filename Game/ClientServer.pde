@@ -6,7 +6,7 @@ public class ClientServer {
   String answer;
   ArrayList<String> players;
   Map<Client, String>  clientMap;
-  Map<String, Integer> unusedLetters;
+  Map<Client, Integer> clientScores;
   int port = 12345;
   Client client;
   Server server;
@@ -32,6 +32,7 @@ public class ClientServer {
           String s = parseInput(client.readString()); //<>//
           println(s);
           clientMap.put(client, s); //<>//
+          clientScores.put(client, 0);
           return s;
         } else {
           String s = parseInput(client.readString());
@@ -65,7 +66,11 @@ public class ClientServer {
   
   public String parseInput(String in){
     if(in.indexOf("/m") == 0){
-      return in.substring(2, in.length());
+      int end = in.substring(2, in.length()).indexOf("/m");
+      if(end == -1){
+        end = in.length();
+      }
+      return in.substring(2, end);
     }
     return null;
   }
